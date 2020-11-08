@@ -15,8 +15,9 @@ class CreateFormSectionsTable extends Migration
   {
     Schema::create('form_sections', function (Blueprint $table) {
       $table->id();
+      $table->foreignId('form_id');
       $table->string('title', 30);
-      $table->string('description', 100);
+      $table->string('description', 100)->nullable();
       $table->timestamps();
     });
   }

@@ -17,7 +17,7 @@ class CreateQuestionsTable extends Migration
       $table->id();
       $table->foreignId('form_section_id');
       $table->string('question', 100);
-      $table->string('type', 10);
+      $table->enum('type', ['multiple-choice', 'checkbox', 'text-answer']);
       $table->timestamps();
     });
   }
