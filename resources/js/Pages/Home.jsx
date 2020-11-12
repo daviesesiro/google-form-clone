@@ -1,8 +1,9 @@
 import React from "react";
 import Layout from "@/components/Layout";
-import { InertiaLink } from "@inertiajs/inertia-react";
+import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 
 const Home = () => {
+  console.log(usePage());
   return (
     <Layout page="Home">
       <div className="relative bg-home-banner h-screen bg-no-repeat bg-cover bg-top pt-10">
@@ -32,8 +33,8 @@ const Home = () => {
                 Forms. Free of charge.
               </p>
               <InertiaLink
-                href="/form"
-                className="bg-blue-600 py-5 text-center mx-auto text-white block w-48 mt-8 font-bold"
+                href={route("form.index")}
+                className="bg-google-blue-100 hover:bg-google-blue-200 py-5 text-center mx-auto text-white block w-48 mt-8 font-bold"
               >
                 Go to Google forms
               </InertiaLink>
@@ -53,7 +54,7 @@ const Home = () => {
               </p>
               <InertiaLink
                 href="#"
-                className="bg-blue-600 py-5 text-center mx-auto text-white block w-48 mt-8 font-bold "
+                className="bg-google-blue-100 hover:bg-google-blue-200 py-5 text-center mx-auto text-white block w-48 mt-8 font-bold"
               >
                 Learn more
               </InertiaLink>

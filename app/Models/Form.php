@@ -9,7 +9,12 @@ class Form extends Model
 {
   use HasFactory;
 
-  public function sections()
+  public function user()
+  {
+    return $this->belongsTo(User::class);
+  }
+
+  public function form_sections()
   {
     return $this->hasMany(FormSection::class);
   }

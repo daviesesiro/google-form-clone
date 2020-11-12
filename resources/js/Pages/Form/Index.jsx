@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Layout from "@/components/Layout";
-import { InertiaLink } from "@inertiajs/inertia-react";
+import { InertiaLink, usePage } from "@inertiajs/inertia-react";
+import { Inertia } from "@inertiajs/inertia";
+import Axios from "axios";
 
-const FormIndex = () => {
+const FormIndex = ({ users }) => {
+  console.log(usePage());
+  console.log(users);
   return (
     <Layout page="Dashboard">
-      <section className="mt-20 px-32 py-5 bg-gray-200">
+      <section className="mt-16 px-32 py-5 bg-gray-200">
         <div className="container">
           <h1>Start a new form</h1>
-          <InertiaLink href="form">
+          <InertiaLink href={route("form.create")}>
             <img
               src="https://ssl.gstatic.com/docs/templates/thumbnails/forms-blank-googlecolors.png"
               aria-describedby="blank_form"
