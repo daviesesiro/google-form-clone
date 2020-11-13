@@ -2,6 +2,8 @@ import { usePage, InertiaLink } from "@inertiajs/inertia-react";
 import React from "react";
 import Helmet from "react-helmet";
 import { Button } from "@/components/Button";
+import { onFormTitleChange } from "../actions";
+import { FormLogo } from "./Icons";
 
 const Layout = ({ children, page, title = "Google Forms Clone", bg, form }) => {
   const { user } = usePage().props;
@@ -12,13 +14,17 @@ const Layout = ({ children, page, title = "Google Forms Clone", bg, form }) => {
           {page} | {title}
         </title>
       </Helmet>
-      <header className="flex p-2 items-center fixed bg-white z-10 top-0 right-0 left-0">
-        <div className="flex items-end ml-4">
-          <InertiaLink className="flex items-center mr-4" href={route("home")}>
-            <img
-              src="https://www.gstatic.com/images/branding/product/1x/forms_48dp.png"
-              className="w-12"
-            />
+      <header className="flex p-2 items-center fixed bg-white z-10 top-0 right-0 left-0 border-b border-gray-300">
+        <div className="flex items-center ml-4">
+          <InertiaLink
+            className="flex items-center justify-center mr-4"
+            href={route("home")}
+          >
+            {page === "Create Form" ? (
+              <FormLogo className="w-10" />
+            ) : (
+              <img src="https://www.gstatic.com/images/branding/product/1x/forms_48dp.png" />
+            )}
             {!form && <span className="text-xl text-gray-700 ml-2">Forms</span>}
           </InertiaLink>
           {form && (
@@ -26,7 +32,7 @@ const Layout = ({ children, page, title = "Google Forms Clone", bg, form }) => {
               style={{ borderBottomWidth: 3 }}
               className="border-forms-color-200 outline-none focus:outline-none"
               value={form.title}
-              onChange={e => form.setTitle(e.target.value)}
+              onChange={e => form.dispatch(onFormTitleChange(e.target.value))}
             />
           )}
         </div>

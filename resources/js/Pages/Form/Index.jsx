@@ -1,13 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Layout from "@/components/Layout";
-import { InertiaLink, usePage } from "@inertiajs/inertia-react";
-import { Inertia } from "@inertiajs/inertia";
-import Axios from "axios";
+import { InertiaLink } from "@inertiajs/inertia-react";
 
 const FormIndex = ({ users }) => {
-  console.log(usePage());
-  console.log(users);
-  return (
     <Layout page="Dashboard">
       <section className="mt-16 px-32 py-5 bg-gray-200">
         <div className="container">

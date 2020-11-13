@@ -1,6 +1,12 @@
 import React from "react";
 import { PlusIcon, TrashIcon } from "@/components/Icons";
 import { SectionIcon } from "./Icons";
+import {
+  onSectionAdd,
+  onSectionChange,
+  onSectionRemove,
+  onQuestionAdd
+} from "../actions";
 
 const SectionItem = ({
   title,
@@ -8,10 +14,7 @@ const SectionItem = ({
   description,
   position,
   length,
-  handleSectionChange,
-  handleAddQuestion,
-  handleSectionRemove,
-  handleAddSection
+  dispatch
 }) => {
   const textAreaRef = React.useRef(null);
   const [showBar, setShowBar] = React.useState(false);
@@ -53,12 +56,12 @@ const SectionItem = ({
           <div className="flex items-center justify-between">
             <div className="input-animA input-animB mt-4 h-auto w-4/5">
               <textarea
+                autoFocus
                 required
-                onChange={e => handleSectionChange(e, id)}
+                onChange={e => dispatch(onSectionChange(id, e.target))}
                 name="title"
                 value={title}
                 ref={textAreaRef}
-                autoFocus
                 autoComplete="off"
                 placeholder="Form title"
                 className="w-full outline-none text-3xl text-black section-title overflow-y-visible flex-grow"
@@ -67,7 +70,7 @@ const SectionItem = ({
             <div>
               {length > 1 && (
                 <button
-                  onClick={handleSectionRemove}
+                  onClick={() => dispatch(onSectionRemove(id))}
                   title="Delete section"
                   className="ml-5 p-2 outline-none focus:outline-none hover:bg-gray-200 rounded-full duration-200 ease-in-out"
                 >
@@ -76,7 +79,7 @@ const SectionItem = ({
               )}
 
               <button
-                onClick={handleAddSection}
+                onClick={() => dispatch(onSectionAdd())}
                 title="New section"
                 className="p-2 outline-none focus:outline-none hover:bg-gray-200 rounded-full duration-200 ease-in-out"
               >
@@ -89,14 +92,14 @@ const SectionItem = ({
               autoComplete="off"
               name="description"
               value={description}
-              onChange={e => handleSectionChange(e, id)}
+              onChange={e => dispatch(onSectionChange(id, e.target))}
               placeholder="Form description"
               className="w-full outline-none p-1 text-black"
               required
             />
           </div>
           <button
-            onClick={handleAddQuestion}
+            onClick={() => dispatch(onQuestionAdd(id))}
             className="flex items-center mb-2 text-gray-600 outline-none focus:outline-none hover:bg-gray-200 rounded-sm p-2 transition-all duration-200 ease-out "
           >
             <PlusIcon className="mr-2" />

@@ -3,7 +3,6 @@ import Layout from "@/components/Layout";
 import { InertiaLink, usePage } from "@inertiajs/inertia-react";
 
 const Home = () => {
-  console.log(usePage());
   return (
     <Layout page="Home">
       <div className="relative bg-home-banner h-screen bg-no-repeat bg-cover bg-top pt-10">

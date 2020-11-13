@@ -1,14 +1,8 @@
 import React from "react";
 import { TrashIcon } from "@/components/Icons";
+import { onOptionAdd, onQuestionChange, onQuestionRemove } from "../actions";
 
-const QuestionItem = ({
-  question,
-  handleQuestionChange,
-  handleQuestionRemove,
-  id,
-  children,
-  handleAddOption
-}) => {
+const QuestionItem = ({ question, dispatch, id, children }) => {
   const textAreaRef = React.useRef(null);
   const [showBar, setShowBar] = React.useState(false);
   return (
@@ -30,12 +24,12 @@ const QuestionItem = ({
               autoFocus
               name="question"
               value={question}
-              onChange={e => handleQuestionChange(e, id)}
+              onChange={e => dispatch(onQuestionChange(id, e.target))}
               placeholder="Question"
               className="mt-2 outline-none p-3 mb-2 text-base rounded-t-sm bg-gray-100 w-2/4 overflow-y-visible border-b-2 border-gray-300 focus:border-forms-color-100 "
             />
             <button
-              onClick={handleQuestionRemove}
+              onClick={() => dispatch(onQuestionRemove(id))}
               title="Delete question"
               className=" p-2 ml-auto outline-none focus:outline-none hover:bg-gray-200 rounded-full duration-200 ease-in-out"
             >
@@ -47,7 +41,7 @@ const QuestionItem = ({
             <span className="rounded-full w-5 h-5 border-2 border-gray-200 mr-1" />
             <button
               className="p-2 hover:bg-gray-200 rounded-sm"
-              onClick={handleAddOption}
+              onClick={() => dispatch(onOptionAdd(id))}
             >
               Add option
             </button>
