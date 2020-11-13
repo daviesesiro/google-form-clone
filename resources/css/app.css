@@ -4,4 +4,6 @@
 
 @import "tailwindcss/components";
 
+@import "./form-input.css";
+
 @import "tailwindcss/utilities";

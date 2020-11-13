@@ -1,0 +1,57 @@
+.input-animA *,
+.input-animeB {
+  position: relative;
+  border: none;
+  outline: none;
+}
+
+.input-animA,
+.input-aminB {
+  position: relative;
+  width: min-content;
+  @apply text-forms-color-100;
+}
+
+.input-animA::after {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: 0.2s ease-in transform;
+  @apply bg-forms-color-100;
+  z-index: 2;
+}
+
+.input-animB::before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #e3e3e3;
+  transform-origin: center;
+  transition: 0.2s ease-in transform;
+  z-index: 1;
+}
+
+.input-animB:focus-within::before {
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+.input-animA:focus-within::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.section-title {
+  height: 45px;
+}

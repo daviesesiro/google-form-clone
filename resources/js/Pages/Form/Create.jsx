@@ -1,12 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import { Inertia } from "@inertiajs/inertia";
 
-import { FormInput } from "@/components/FormInput";
 import Layout from "@/components/Layout";
-import SectionItem from "../../components/SectionItem";
-import QuestionItem from "../../components/QuestionItem";
-import OptionItem from "../../components/OptionItem";
+import SectionItem from "@/components/SectionItem";
+import QuestionItem from "@/components/QuestionItem";
+import OptionItem from "@/components/OptionItem";
 
 const CreateForm = () => {
   const [sections, setSections] = useState([]);
@@ -42,6 +41,20 @@ const CreateForm = () => {
     );
   };
 
+  const handleSectionRemove = sectionId => {
+    setSections(prev => prev.filter(section => section.id !== sectionId));
+    setQuestions(prev =>
+      prev.filter(question => {
+        if (question.sectionId === sectionId) {
+          setOptions(prev =>
+            prev.filter(option => option.questionId !== question.id)
+          );
+        }
+        return question.sectionId !== sectionId;
+      })
+    );
+  };
+
   const handleAddQuestion = sectionId => {
     const id = uuid();
     setQuestions(prev => [...prev, { sectionId, id, question: "" }]);
@@ -57,10 +70,26 @@ const CreateForm = () => {
     );
   };
 
+  const handleQuestionRemove = questionId => {
+    setQuestions(prev =>
+      prev.filter(question => {
+        if (question.id === questionId) {
+          setOptions(prev =>
+            prev.filter(option => option.questionId !== questionId)
+          );
+        }
+        return question.id !== questionId;
+      })
+    );
+  };
+
   const handleAddOption = questionId => {
+    const questionOptionCount = options.filter(
+      option => option.questionId == questionId
+    ).length;
     setOptions(prev => [
       ...prev,
-      { questionId, id: uuid(), option: "Option " + (prev.length + 1) }
+      { questionId, id: uuid(), option: "Option " + (questionOptionCount + 1) }
     ]);
   };
 
@@ -73,24 +102,32 @@ const CreateForm = () => {
     );
   };
 
+  const handleOptionRemove = optionId => {
+    setOptions(prev => prev.filter(option => option.id !== optionId));
+  };
+
   const handleSectionSubmit = () => {
     Inertia.post(route("form.store"), { sections, questions, options });
   };
+
   return (
-    <Layout form={{ title, setTitle }} page="Create Form" bg="#f0ebf8">
-      <section className="mt-16">
-        <button className="bg-red-300" onClick={handleSectionSubmit}>
-          submit
-        </button>
-        <button className="bg-red-300" onClick={handleAddSection}>
-          Add new section
-        </button>
+    <Layout
+      form={{ title, setTitle, handleSectionSubmit }}
+      page="Create Form"
+      bg="#f0ebf8"
+    >
+      <section className="py-16">
         {sections.map((section, Sidx) => (
-          <div className="mx-auto" key={`section${section.id}`}>
+          <div
+            className="mx-auto  max-w-3xl md:p-0 p-5 "
+            key={`section${section.id}`}
+          >
             <SectionItem
               {...section}
               handleSectionChange={handleSectionChange}
               handleAddQuestion={() => handleAddQuestion(section.id)}
+              handleSectionRemove={() => handleSectionRemove(section.id)}
+              handleAddSection={handleAddSection}
               position={Sidx}
               length={sections.length}
             />
@@ -100,6 +137,9 @@ const CreateForm = () => {
                 section.id === question.sectionId && (
                   <QuestionItem
                     handleQuestionChange={handleQuestionChange}
+                    handleQuestionRemove={() =>
+                      handleQuestionRemove(question.id)
+                    }
                     handleAddOption={() => handleAddOption(question.id)}
                     {...question}
                     key={`question${question.id}`}
@@ -108,6 +148,7 @@ const CreateForm = () => {
                       (option, Oidx) =>
                         question.id === option.questionId && (
                           <OptionItem
+                            handleOptionRemove={handleOptionRemove}
                             handleOptionChange={handleOptionChange}
                             key={`option${Oidx}`}
                             {...option}

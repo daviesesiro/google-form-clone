@@ -30,10 +30,19 @@ const Layout = ({ children, page, title = "Google Forms Clone", bg, form }) => {
             />
           )}
         </div>
-
         {user ? (
-          <div className="ml-auto mr-4 w-10 h-10 rounded-full flex items-center justify-center bg-purple-700 text-bold text-white font-bold">
-            {user.initials}
+          <div className="ml-auto flex items-center">
+            {form && (
+              <button
+                className="bg-forms-color-100 text-white py-2 px-4 rounded-md font-bold text-sm"
+                onClick={form.handleSectionSubmit}
+              >
+                submit
+              </button>
+            )}
+            <div className=" mr-4 ml-5 w-10 h-10 rounded-full flex items-center justify-center bg-purple-700 text-bold text-white font-bold">
+              {user.initials}
+            </div>
           </div>
         ) : (
           <InertiaLink
